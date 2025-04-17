@@ -1,6 +1,7 @@
-from app.database import engine, metadata
-from app import models  # нужно, чтобы зарегистрировать таблицу в metadata
+from app.database import engine, Base  # Импортируем engine и Base
+from app import models  # Нужно, чтобы зарегистрировать таблицу в metadata
 
-metadata.create_all(engine)
+# Создаём все таблицы в базе данных
+Base.metadata.create_all(engine)
 
 print("Таблицы созданы!")

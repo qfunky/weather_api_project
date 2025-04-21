@@ -38,3 +38,7 @@ async def login(credentials: UserLogin):
 @app.get("/me")
 async def get_me(current_user: dict = Depends(get_current_user)):
     return {"user": current_user}
+
+@app.get("/ping")
+async def ping():
+    return {"message": "pong"}

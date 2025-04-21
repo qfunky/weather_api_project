@@ -16,7 +16,7 @@ ALGORITHM = "HS256"
 
 async def create_user(user: UserCreate):
     hashed_password = bcrypt.hash(user.password)
-    query = users.insert().values(
+    query = User.__table__.insert().values(
         username=user.username,
         email=user.email,
         hashed_password=hashed_password
@@ -56,8 +56,9 @@ async def get_current_user(request: Request):
         if user_id is None:
             raise HTTPException(status_code=401, detail="Токен недействителен")
 
+        user_id = int(user_id)
         # Извлекаем пользователя из базы
-        query = users.select().where(users.c.id == user_id)
+        query = select(User).where(User.id == user_id)
         user = await database.fetch_one(query)
         if user is None:
             raise HTTPException(status_code=401, detail="Пользователь не найден")
